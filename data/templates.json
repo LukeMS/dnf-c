@@ -1,0 +1,273 @@
+{
+    "TileEntity": {
+        "_default": {
+            "_folder": "tile_feature",
+            "block_mov": false,
+            "block_sight": false,
+            "image": "ascii",
+            "label_color": "$255,255,255,255"
+        },
+        "shadow": {
+            "image": "shadow"
+        },
+        "floor": {
+            "id": ".",
+            "color": "$129,106,86,255",
+            "_rnd_gen_cost": 64,
+            "image": "floor_cobble_blood",
+            "receive_shadow": "shadow"
+        },
+        "wall": {
+            "id": "#",
+            "color": "$161,161,161,255",
+            "_rnd_gen_cost": 8,
+            "block_mov": true,
+            "block_sight": true,
+            "image": "wall_brick_dark_1"
+        },
+        "hall": {
+            "id": "/",
+            "color": [129, 106, 86, 255],
+            "_rnd_gen_cost": 1
+        },
+        "water": {
+            "id": "=",
+            "color": "blue"
+        },
+        "land": {
+            "id": ".",
+            "color": "darker_green"
+        },
+
+
+        "arctic_deep_water": {
+            "id": "¬",
+            "color": "dark_sky",
+            "image": "deep_water",
+            "tiling": "4bit",
+            "group0": "DEEP_WATER",
+            "compare_function": "same_group0"
+        },
+        "arctic_shallow_water": {
+            "id": "~",
+            "color": "sky",
+            "image": "arctic_shallow_water",
+            "tiling": "4bit",
+            "compare_function": "is_water"
+        },
+        "deep_water": {
+            "id": "¬",
+            "color": "darkest_blue",
+            "image": "deep_water",
+            "tiling": "4bit",
+            "group0": "DEEP_WATER",
+            "compare_function": "same_group0"
+        },
+        "shallow_water": {
+            "id": "~",
+            "color": "dark_blue",
+            "image": "shallow_water",
+            "tiling": "4bit",
+            "compare_function": "is_water"
+        },
+        "arctic_mountain": {
+            "id": "O",
+            "color": "$245,245,245,255",
+            "image": "arctic_mountain",
+            "tiling": "4bit",
+            "group0": "MOUNTAIN_GROUP",
+            "compare_function": "same_group0"
+        },
+        "arctic_hill": {
+            "id": "^",
+            "color": "$245,245,245,255",
+            "image": "arctic_hill",
+            "tiling": "4bit",
+            "group0": "HILL_GROUP",
+            "compare_function": "same_group0"
+        },
+        "temperate_mountain": {
+            "id": "O",
+            "color": "light_chartreuse",
+            "image": "mountain",
+            "tiling": "4bit",
+            "group0": "MOUNTAIN_GROUP",
+            "compare_function": "same_group0"
+        },
+        "temperate_hill": {
+            "id": "^",
+            "color": "dark_chartreuse",
+            "image": "temperate_hill",
+            "tiling": "4bit",
+            "group0": "HILL_GROUP",
+            "compare_function": "same_group0"
+        },
+        "mountain": {
+            "id": "O",
+            "color": "light_chartreuse",
+            "image": "mountain",
+            "tiling": "4bit",
+            "group0": "MOUNTAIN_GROUP",
+            "compare_function": "same_group0"
+        },
+        "hill": {
+            "id": "^",
+            "color": "dark_chartreuse",
+            "image": "temperate_hill",
+            "tiling": "4bit",
+            "group0": "HILL_GROUP",
+            "compare_function": "same_group0"
+        },
+        "tropical_hill": {
+            "id": "^",
+            "color": "dark_chartreuse",
+            "image": "tropical_hill",
+            "tiling": "4bit",
+            "group0": "HILL_GROUP",
+            "compare_function": "same_group0"
+        },
+        "tropical_mountain": {
+            "id": "O",
+            "color": "light_chartreuse",
+            "image": "mountain",
+            "tiling": "4bit",
+            "group0": "MOUNTAIN_GROUP",
+            "compare_function": "same_group0"
+        },
+
+        "temperate_desert": {
+            "id": ",",
+            "color": "$240,220,7,255",
+            "image": "temperate_desert",
+            "tiling": "4bit",
+            "group0": "BARELAND_GROUP",
+            "compare_function": "same_group0"
+        },
+        "subtropical_desert": {
+            "id": ",",
+            "color": "$250,150,24,255",
+            "image": "subtropical_desert",
+            "tiling": "4bit",
+            "group0": "BARELAND_GROUP",
+            "compare_function": "same_group0"
+        },
+        "tropical_desert": {
+            "id": ",",
+            "color": "$255,65,12,255",
+            "image": "tropical_desert",
+            "tiling": "4bit",
+            "group0": "BARELAND_GROUP",
+            "compare_function": "same_group0"
+        },
+
+        "arctic_coast": {
+            "id": "c",
+            "color": "$248, 243, 223",
+            "image": "arctic_land",
+            "tiling": "4bit",
+            "group0": "ARCTIC_LAND",
+            "compare_function": "same_group0"
+        },
+        "arctic_land": {
+            "id": ",",
+            "color": "$248, 248, 255}",
+            "label_color": "$60,30,200,255",
+            "image": "arctic_land",
+            "tiling": "4bit",
+            "group0": "ARCTIC_LAND",
+            "compare_function": "same_group0"
+        },
+        "temperate_coast": {
+            "id": ".",
+            "color": "darker_amber",
+            "image": "boreal_grassland",
+            "tiling": "4bit",
+            "group0": "GRASSLAND_GROUP",
+            "compare_function": "same_group0"
+        },
+        "boreal_grassland": {
+            "id": ".",
+            "color": "dark_sea",
+            "image": "boreal_grassland",
+            "tiling": "4bit",
+            "group0": "GRASSLAND_GROUP",
+            "compare_function": "same_group0"
+        },
+        "coast": {
+            "id": ".",
+            "color": "darker_amber",
+            "image": "grassland",
+            "tiling": "4bit",
+            "group0": "GRASSLAND_GROUP",
+            "compare_function": "same_group0"
+        },
+        "grassland": {
+            "id": ".",
+            "color": "darker_green",
+            "image": "grassland",
+            "tiling": "4bit",
+            "group0": "GRASSLAND_GROUP",
+            "compare_function": "same_group0"
+        },
+        "tropical_coast": {
+            "id": ".",
+            "color": "darker_amber",
+            "image": "savana",
+            "tiling": "4bit",
+            "group0": "BARELAND_GROUP",
+            "compare_function": "same_group0"
+        },
+        "savana": {
+            "id": ",",
+            "color": "darker_yellow",
+            "image": "savana",
+            "tiling": "4bit",
+            "group0": "BARELAND_GROUP",
+            "compare_function": "same_group0"
+        },
+
+        "boreal_forest": {
+            "id": "T",
+            "color": "dark_orange",
+            "image": "boreal_forest",
+            "tiling": "4bit",
+            "compare_function": "same_template"
+        },
+        "woodland": {
+            "id": "T",
+            "color": "dark_turquoise",
+            "image": "woodland",
+            "tiling": "4bit",
+            "compare_function": "same_template"
+        },
+        "temperate_deciduous_forest": {
+            "id": "T",
+            "color": "dark_chartreuse",
+            "image": "temperate_deciduous_forest",
+            "tiling": "4bit",
+            "compare_function": "same_template"
+        },
+        "temperate_rain_forest": {
+            "id": "T",
+            "color": "dark_green",
+            "image": "temperate_rain_forest",
+            "tiling": "4bit",
+            "compare_function": "same_template"
+        },
+        "tropical_rain_forest": {
+            "id": "T",
+            "color": "darker_green",
+            "image": "tropical_rain_forest",
+            "tiling": "4bit",
+            "compare_function": "same_template"
+        },
+
+
+        "heat_view": {
+            "id": "$"
+        },
+        "rainfall_view": {
+            "id": "~"
+        }
+    }
+}

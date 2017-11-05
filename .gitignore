@@ -1,0 +1,6 @@
+*.dll
+*.sublime-project
+*.sublime-workspace
+obj
+bin
+resources
