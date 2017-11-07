@@ -1,6 +1,10 @@
 #ifndef RECTPACKER_H
 #define RECTPACKER_H
 
+#include "zhash.h"
+
+#include "resources.h"
+
 
 typedef struct DNF_rectpacker_Rect {
     int w;
@@ -9,12 +13,11 @@ typedef struct DNF_rectpacker_Rect {
     int y;
 } DNF_rectpacker_Rect;
 
-int DNF_rectpacker_imgpacker(int w, void* sources, int** max_h);
+int DNF_rectpacker_imgpacker(int w, struct ZHashTable* sources, int* max_h);
 
-// 'namespace struct'
-// ejrh.wordpress.com/2012/01/24/namespaces-in-c/
+// rectpacker 'namespace struct'
 static const struct {
-    int (* imgpacker)(int w, void* sources, int** max_h);
+    int (* imgpacker)(int w, struct ZHashTable* sources, int* max_h);
 } rectpacker = {
     DNF_rectpacker_imgpacker  // rectpacker.imgpacker
 };

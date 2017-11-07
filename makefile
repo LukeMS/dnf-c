@@ -6,21 +6,23 @@ _TARGET := dnf
 $(info makefile=$(_MAKEFILE_ABS))
 .DEFAULT_GOAL = run
 _MAKEFILE_DIR := $(dir $(_MAKEFILE_ABS))
-_MINGW32 = /d/msys32/mingw32
-_MINGW32_LIB = $(_MINGW32)/lib
-_MINGW32_INC = $(_MINGW32)/include
+#_MINGW32 = /d/msys32/mingw32
+#_MINGW32_LIB = $(_MINGW32)/lib
+#_MINGW32_INC = $(_MINGW32)/include
 
 $(info make path=$(_MAKEFILE_DIR))
 $(info target=$(_TARGET))
 BDIR = bin
 ODIR = obj
 IDIR = .
-INC = -I$(IDIR) -I/d/Documents/c/absdatatypes/inc -I/d/Documents/c/zhash/inc
-LIB = -L../absdatatypes/lib -L../zhash/lib
+INC = -I$(IDIR) -I../eventmgr/inc -I/d/Documents/c/absdatatypes/inc -I/d/Documents/c/zhash/inc
+LIB = -L../eventmgr/lib -L../absdatatypes/lib -L../zhash/lib
 LIBS = ../absdatatypes/lib/libabsdatatypes.a ../zhash/lib/libzhash.a
-LIBS_SHORT = -labsdatatypes -lzhash -lallegro_monolith -lmingw32 -lz
+LIBS_SHORT = -leventmgr -labsdatatypes -lzhash -lallegro_monolith -lmingw32 -lz
 SDIR = .
+# -Wextra -Wpedantic 
 CFLAGS = -static -Wall -W -ggdb -std=c99 $(INC) $(LIB)
+
 
 # https://www.gnu.org/software/make/manual/html_node/Wildcard-Function.html
 _OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
@@ -30,14 +32,18 @@ _dummy := $(shell mkdir -p "$(BDIR)" "$(ODIR)")
 
 clean_filenames := $(BDIR)/$(_TARGET).exe $(ODIR)/*.o $(ODIR)/*.d
 
-clean_files := $(strip $(foreach f,$(clean_filenames),$(wildcard $(f)))) $(LIBS)
+#clean_files := $(strip $(foreach f,$(clean_filenames),$(wildcard $(f)))) $(LIBS)
+clean_files := $(strip $(foreach f,$(clean_filenames),$(wildcard $(f))))
+
 
 all: $(OBJS) $(LIBS)
 	gcc $(OBJS) $(LIB) $(LIBS_SHORT) -o $(BDIR)/$(_TARGET)
 
-#drmemory -batch -- ./$(BDIR)/$(_TARGET).exe
 run: all
 	./$(BDIR)/$(_TARGET).exe
+
+rundrm: all
+	C:/dr_m/bin/drmemory -batch -- ./$(BDIR)/$(_TARGET).exe
 
 # pull in dependency info for *existing* .o files
 -include $(OBJS:.o=.d)

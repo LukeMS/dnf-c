@@ -2,17 +2,29 @@
 
 uint32_t Manager_ref_count = 0;
 
-bool new_Manager(Manager **manager_pp)
+int new_Manager(void)
 {
-    *manager_pp = malloc(sizeof(**manager_pp));
-    //Manager *manager_p = *manager_pp; // do something with it
-    Manager_ref_count++;
+    // allocate memory for and check manager
+    if (!(manager = calloc(1, sizeof(*manager))))
+        return -1;
+
+    manager->run         = DNF_manager_run;
+    // calloc takes care of initializing NULL pointers
+    //      manager->display     = NULL;
+    //      manager->event_queue = NULL;
+    //      (...)
 
     return 0;
 }
 
-bool del_Manager(Manager *manager_p) {
-    free(manager_p);
+void del_Manager(void) {
+    free(manager);
+
+    return;
+}
+
+int DNF_manager_run(void) {
+    dnf_info("called DNF_manager_run");
 
     return 0;
 }

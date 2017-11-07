@@ -5,10 +5,9 @@
 #include "rectpacker.h"
 
 int init_resources(void) {
-    Resources* resources = NULL;
-    if (!(resources = malloc(sizeof(*resources))))
+    // allocate memory for and check manager->resources
+    if (!(manager->resources = calloc(1, sizeof(*(manager->resources)))))
         return -1;
-    manager->resources = resources;
 
     if (load_tilesets())
         return -1;
@@ -22,7 +21,20 @@ void unload_resources(void) {
     return;
 }
 
+static void free_tile_source_members(TileSource* ptr) {
+    free(ptr->file);
+    free(ptr->name);
+}
+
 void unload_tilesets(Tileset** tileset) {
+    for (struct ZHashEntry* tile_source = (*tileset)->tile_sources->head;
+         tile_source;
+         tile_source = tile_source->lnknext) {
+
+        free_tile_source_members(tile_source->val);
+        free(tile_source->val);
+    }
+
     zfree_hash_table((*tileset)->tile_sources);
     zfree_hash_table((*tileset)->max_pos);
     zfree_hash_table((*tileset)->max_var);
@@ -30,20 +42,16 @@ void unload_tilesets(Tileset** tileset) {
     return;
 }
 
-static void free_tile_source_members(TileSource* ptr) {
-    free(ptr->name);
-    free(ptr->file);
-}
 
 static TileSource* create_tile_source(const char* path) {
     // allocate a new struct
     TileSource* tile_source;
-    if (!(tile_source = malloc(sizeof(tile_source))))
+    if (!(tile_source = calloc(1, sizeof(*tile_source))))
         dnf_abort("failed to allocate memory");
 
     // Locate Last Occurrence of Character in String
     char *start = strrchr(path, '\\');
-    
+
     // Locate First Occurrence of Character in String
     char *end = strchr(path, '#');
 
@@ -55,7 +63,7 @@ static TileSource* create_tile_source(const char* path) {
     // copy a substring of length name_size from path into name
     strncpy(tile_source->name, start, name_size);
 
-    if (!(tile_source->file = malloc(strlen(path) + 1)))
+    if (!(tile_source->file = calloc(strlen(path) + 1, 1)))
         dnf_abort("failed to allocate memory");;
     strcpy(tile_source->file, path);
 
@@ -78,19 +86,15 @@ static char* create_tile_key(TileSource* tile_source) {
 
 }
 
-static int load_tile_files(const char* path, struct ZHashTable* sources) {
-    // name of each file during iteration
-    char *name;
+static int list_tile_files(const char* path, struct ZHashTable* sources,
+        long unsigned int* adler) {
+    char* name; // name of each file during iteration
+    char* tile_key; // key that will be used to hash
+    TileSource* tile_src = NULL;
+    uint32_t fmtime_v; // mod. time of each file
+    *adler = adler32(0L, Z_NULL, 0); // Adler-32 checksum
 
-    // modification date of each file during iteration
-    uint32_t fmtime_v;
-
-    // running Adler-32 checksum
-    long unsigned int adler = adler32(0L, Z_NULL, 0);
-
-    TileSource* tile_source = NULL;
-
-    char * tile_key;
+    assert(sources->entry_count == 0);
 
     ALLEGRO_FS_ENTRY* dir = al_create_fs_entry(path);
     if(al_open_directory(dir)) {
@@ -99,45 +103,43 @@ static int load_tile_files(const char* path, struct ZHashTable* sources) {
             name = (char*)al_get_fs_entry_name(file);
             if (!strcmp(get_file_ext(name), "png")) {
 
-                tile_source = create_tile_source(name);
-                tile_key = create_tile_key(tile_source);
-                zhash_set(sources, tile_key, (void *) tile_source);
-                //zhash_set(sources, "a", (void *) "a");
-                /*
-                printf("tile: %s -> %s#%.3d#%.3d\n", tile_source->file,
-                                                     tile_source->name,
-                                                     tile_source->pos,
-                                                     tile_source->var);
-                */
-
-                // zhash keeps its own strcpy of the key
-                //free(tile_key);
+                tile_src = create_tile_source(name);
+                tile_key = create_tile_key(tile_src);
+                zhash_set(sources, tile_key, (void *) tile_src);
 
                 // adler consider bytes [0..len-1], so we pass the full length of a string
-                adler = adler32(adler, (const unsigned char*) tile_key,
+                *adler = adler32(*adler, (const unsigned char*) tile_key,
                                        strlen(tile_key));
 
                 fmtime_v = fmtime(name);
 
                 // adler consider bytes [0..len-1], so we pass the size of the number + 1
-                adler = adler32(adler, (const unsigned char*) &fmtime_v, sizeof(fmtime_v) + 1);
+                *adler = adler32(*adler, (const unsigned char*) &fmtime_v, sizeof(fmtime_v) + 1);
+
+                // zhash keeps its own strcpy of the key
+                free(tile_key);
             }
             al_destroy_fs_entry(file);
         }
     } else
         return -1;
 
-    printf("adler32 %lu\n", adler); // 1694198809
+    assert(sources->entry_count > 0);
+
+    if (DNF_DEBUG >= 1) {
+        dnf_info("adler32 %lu", *adler);
+    }
+
     al_destroy_fs_entry(dir);
 
     return 0;
-
 }
 
 int load_tilesets(void) {
 
+    long unsigned int checksum = 0;
     Tileset* tileset;
-    if (!(tileset = malloc(sizeof(*tileset))))
+    if (!(tileset = calloc(1, sizeof(*tileset))))
         dnf_abort("failed to allocate memory to manager->resources->tileset");
     manager->resources->tileset = tileset;
 
@@ -146,24 +148,39 @@ int load_tilesets(void) {
     tileset->max_pos      = zcreate_hash_table();
     tileset->max_var      = zcreate_hash_table();
 
+    // list all the files and calculate a checksum
+    list_tile_files("resources/gfx/tile_feature",
+                    tileset->tile_sources,
+                    &checksum);
+    dnf_info("checksum %lu", checksum);
 
-    load_tile_files("resources/gfx/tile_feature", tileset->tile_sources);
+    if (DNF_DEBUG == 4) {
+        for (struct ZHashEntry* p = tileset->tile_sources->head;
+             p;
+             p = p->lnknext)
+        {
+            dnf_info("(%s)%s#%.3d#%.3d", ((TileSource*) p->val)->file,
+                                           ((TileSource*) p->val)->name,
+                                           ((TileSource*) p->val)->pos,
+                                           ((TileSource*) p->val)->var
+                   );
+        }
+    }
 
-    /*
-    CHECK CHECKSUM
-    IF CACHE IS UP-TO-DATE, USE IT
-    IF NOT, CREATE A NEW ATLAS AND STORE THE CHECKSUM
+    /* TODO:
+    - CHECK CHECKSUM
+    - IF CACHE IS UP-TO-DATE, USE IT
+    - ELSE, CREATE A NEW ATLAS AND STORE THE CHECKSUM
+    */
 
-    int packer_h = 0;
-    int* packer_h_ptr = &packer_h;
-    void* sources = manager;
-    if (rectpacker.imgpacker(1, sources, &packer_h_ptr)) {
+    int packer_h;
+
+    if (rectpacker.imgpacker(1, tileset->tile_sources, &packer_h)) {
         dnf_abort("img_packer returned an error.");
     } else {
-        printf("packer_h %d\n", packer_h);
+        dnf_info("packer_h %d", packer_h);
 
     }
-    */
 
     return 0;
 }

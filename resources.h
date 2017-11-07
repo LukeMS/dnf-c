@@ -1,6 +1,7 @@
 #ifndef RESOURCES_H
 #define RESOURCES_H
 
+#include <assert.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -17,10 +18,13 @@ typedef struct Resources_ {
 } Resources;
 
 typedef struct TileSource_ {
-    char* file;
-    char* name;
-    int pos;
-    int var;
+    char*           file;
+    char*           name;
+    int             pos;
+    int             var;
+    int             w;
+    int             h;
+    ALLEGRO_BITMAP* img;
 } TileSource;
 
 typedef struct Tileset_ {
