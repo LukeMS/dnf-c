@@ -1,6 +1,7 @@
 *.dll
 *.sublime-project
 *.sublime-workspace
+dnf_log.txt
 obj
 bin
 resources

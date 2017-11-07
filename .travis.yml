@@ -1,0 +1,17 @@
+language: c
+before_install:
+  - sudo apt-get update -qq
+  - git clone https://github.com/liballeg/allegro5.git
+  - cd allegro
+  - mkdir build
+  - cd build
+  - ccmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - make
+  - make install
+  - cd
+install:
+script:
+  - make --file=linux.makefile
+after_script:
+  - cd ..
+  - ./bin/dnf.exe
