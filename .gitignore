@@ -2,6 +2,7 @@
 *.sublime-project
 *.sublime-workspace
 dnf_log.txt
+git-commit.bat
 obj
 bin
 resources
