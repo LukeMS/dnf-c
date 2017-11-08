@@ -1,0 +1,11 @@
+Title:
+    Worldmap/Overworld tileset
+
+Author:
+    MrBeast
+
+URL:
+    https://opengameart.org/content/worldmapoverworld-tileset
+	
+License(s):
+    CC-BY 3.0 (http://creativecommons.org/licenses/by/3.0/)
