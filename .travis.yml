@@ -30,7 +30,7 @@ env:
 
 script:
     - |
-      if [ ! -d "allegro5" ]; then
+      if [ ! -d /home/travis/allegro5 ]; then
          export USE_CACHE=0;
          git clone https://github.com/liballeg/allegro5.git
          cd allegro5
