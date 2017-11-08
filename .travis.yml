@@ -8,6 +8,12 @@ compiler:
   - gcc
   #- clang
 
+cache:
+  directories:
+    #- /usr/local/include
+    #- /usr/local/lib
+    - /home/travis/allegro5
+
 before_install:
     - if [ `uname` = "Linux" ]; then
          export DISPLAY=:99.0;
@@ -22,26 +28,27 @@ env:
   - WANT_SHADERS_GL=off
   #- WANT_SHADERS_GL=on
 
-before_script:
-  - git clone https://github.com/liballeg/allegro5.git
-  - cd allegro5
-  - mkdir build
-  - cd build
-
 script:
     - |
+      if [ ! -d "allegro5" ]; then
+         export USE_CACHE=0;
+         git clone https://github.com/liballeg/allegro5.git
+         cd allegro5
+         mkdir build
+         cd build
+      else
+         export USE_CACHE=1;
+         cd allegro5/build
+      fi
       if [ `uname` = "Linux" ]; then
-         #cmake .. -DCMAKE_BUILD_TYPE=Debug -DWANT_SHADERS_GL=$WANT_SHADERS_GL -DWANT_CURL_EXAMPLE=on
-         cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_SHADERS_GL=$WANT_SHADERS_GL
-         make
-         #. ../tests/grab_bitmap_suites.sh
-         #find ../tests -name '*.ini' | grep -v 'compressed' | xargs tests/test_driver | tee /tmp/test_out
-         #grep -q 'failed tests: 0' /tmp/test_out
+         if [ `USE_CACHE` = 0 ]; then
+            cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_SHADERS_GL=$WANT_SHADERS_GL
+            make
+         else
+            echo USING CACHE
+         if
          sudo make install
          sudo ldconfig
-         #gcc ../misc/install_test.c -o install_test $(pkg-config --cflags --libs allegro_image-debug-5 allegro_ttf-debug-5 allegro_acodec-debug-5 allegro_dialog-debug-5 allegro_primitives-debug-5 allegro_video-debug-5)
-         #pulseaudio -D
-         #./install_test
       elif [ `uname` = "Darwin" ]; then
          cmake .. -DWANT_SHADERS_GL=$WANT_SHADERS_GL -G Xcode
          xcodebuild
