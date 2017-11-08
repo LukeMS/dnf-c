@@ -30,9 +30,9 @@ DNF_DEBUG verbosity level:
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
-#include <allegro5/allegro_native_dialog.h>
+//#include <allegro5/allegro_native_dialog.h>
 
-ALLEGRO_TEXTLOG* dnf_log_window;
+//ALLEGRO_TEXTLOG* dnf_log_window;
 FILE * DNF_LOG;
 
 void _dnf_free(void);

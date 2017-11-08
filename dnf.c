@@ -2,7 +2,7 @@
 
 
 Manager *manager = NULL;
-ALLEGRO_TEXTLOG* dnf_log_window = NULL;
+//ALLEGRO_TEXTLOG* dnf_log_window = NULL;
 
 void zhash_testy()
 {
@@ -67,12 +67,12 @@ void dnf_init(void) {
 
     /*
     Returns NULL if there was an error opening the window, or if text log windows are not implemented on the platform.
-    */
     dnf_log_window = al_open_native_text_log(
         "DNF Log", ALLEGRO_TEXTLOG_NO_CLOSE|ALLEGRO_TEXTLOG_MONOSPACE
     );
     if (dnf_log_window == NULL)
         dnf_abort("Failed to initialize native text log.");
+    */
 
     if(!al_init_image_addon())
         dnf_abort("Failed to initialize al_init_image_addon.");
