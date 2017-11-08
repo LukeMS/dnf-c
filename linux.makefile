@@ -30,7 +30,7 @@ valgrind: all
 
 #gdb -batch -ex "run" -ex "bt" $(BDIR)/$(_TARGET) 2>&1 | grep -v ^"No stack."$
 gdb: all
-	gdb -batch -ex "run" -ex "bt" $(BDIR)/$(_TARGET) 2>&1
+	gdb -directory "/opt/src/glibc" -batch -ex "run" -ex "bt" $(BDIR)/$(_TARGET) 2>&1
 
 # pull in dependency info for *existing* .o files
 -include $(OBJS:.o=.d)
