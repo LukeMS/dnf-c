@@ -18,6 +18,8 @@ before_script:
   - sleep 3 # give xvfb some time to start
   - ls -A resources/gfx/tile_feature/
 script:
+  # improve gdb messages
+  - git clone https://github.com/jeremie-koenig/glibc /opt/src/glibc
   - make gdb --file=linux.makefile
   #- make run --file=linux.makefile # segmentation fault
   #- make valgrind --file=linux.makefile # lots of errors
