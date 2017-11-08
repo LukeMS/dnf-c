@@ -3,6 +3,12 @@
 
 #define ALLEGRO_USE_CONSOLE 1
 
+#ifdef _WIN32
+#define DNF_OSPATHSEP '\\'
+#else
+#define DNF_OSPATHSEP '/'
+#endif
+
 /*
 #ifdef DEBUG
 #define DNF_DEBUG 1

@@ -49,8 +49,12 @@ static TileSource* create_tile_source(const char* path) {
     if (!(tile_source = calloc(1, sizeof(*tile_source))))
         dnf_abort("failed to allocate memory");
 
+    /*
     // Locate Last Occurrence of Character in String
-    char *start = strrchr(path, '\\');
+    e.g. tile_source = "resources/gfx/tile_feature/ascii#p_210#v_00.png"
+
+    */
+    char *start = strrchr(path, DNF_OSPATHSEP);
 
     // Locate First Occurrence of Character in String
     char *end = strchr(path, '#');

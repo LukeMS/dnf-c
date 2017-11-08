@@ -7,7 +7,7 @@
 :@set /p msg="Describe the commit: "
 :@git commit -m "%msg%"
 
-@git commit -m "travis"
+@git commit -m "Os specific path separators"
 @git push origin master
 
 @pause
