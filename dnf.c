@@ -72,11 +72,11 @@ void dnf_init(int argc, char const *argv[]) {
         dnf_abort("Failed to initialize native text log.");
     */
 
-    if(!al_init_font_addon())
+    if(!(al_init_font_addon()))
         dnf_abort("Failed to initialize al_init_font_addon.");
-    if(!al_init_image_addon())
+    if(!(al_init_image_addon()))
         dnf_abort("Failed to initialize al_init_image_addon.");
-    if(!al_init_ttf_addon())
+    if(!(al_init_ttf_addon()))
         dnf_abort("Failed to initialize al_init_ttf_addon.");
 
     if (init_resources())
