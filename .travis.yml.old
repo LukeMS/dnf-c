@@ -28,11 +28,11 @@ before_install:
          sudo ldconfig
          gcc ../misc/install_test.c -o install_test $(pkg-config --cflags --libs allegro_image-debug-5 allegro_ttf-debug-5 allegro_acodec-debug-5 allegro_dialog-debug-5 allegro_primitives-debug-5 allegro_video-debug-5)
          pulseaudio -D
-         ./install_test
       elif [ `uname` = "Darwin" ]; then
          cmake .. -DWANT_SHADERS_GL=$WANT_SHADERS_GL -G Xcode
          xcodebuild
       fi
+  #      ./install_test
   - cd ..
   - cd ..
   #- sudo apt-get update
