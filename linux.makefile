@@ -8,7 +8,7 @@ IDIR = -Iinc -I/usr/include -I/usr/include/absdt
 LDIR = -L/usr/lib
 # https://wiki.allegro.cc/index.php?title=Compiling_Allegro_Programs#n00b_Introduction_.28Skip_If_Not_New.29
 # allegro allegro_acodec allegro_audio allegro_color allegro_dialog allegro_font allegro_image allegro_main allegro_memfile allegro_physfs allegro_primitives allegro_ttf
-LIBS = -leventmgr -labsdt -lzhash -lz -lallegro -lallegro_ttf -lallegro_font -lallegro_image
+LIBS = -leventmgr -labsdt -lzhash -lz -lallegro -lallegro_font  -lallegro_image -lallegro_ttf
 CFLAGS = -static -Wall -W -ggdb -std=c99 $(IDIR) $(LDIR)
 
 _OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
