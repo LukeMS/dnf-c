@@ -6,7 +6,8 @@ ODIR = obj
 SDIR = .
 IDIR = -Iinc -I/usr/include -I/usr/include/absdt
 LDIR = -L/usr/lib
-LIBS = -leventmgr -labsdt -lzhash -lz -lallegro
+# allegro allegro_acodec allegro_audio allegro_color allegro_dialog allegro_font allegro_image allegro_main allegro_memfile allegro_physfs allegro_primitives allegro_ttf
+LIBS = -leventmgr -labsdt -lzhash -lz -lallegro -allegro_image -lallegro_dialog
 CFLAGS = -static -Wall -W -ggdb -std=c99 $(IDIR) $(LDIR)
 
 _OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
