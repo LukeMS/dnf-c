@@ -22,3 +22,4 @@ script:
   #- make run --file=linux.makefile # segmentation fault
   #- make valgrind --file=linux.makefile # lots of errors
 after_script:
+  - cat dnf_log.txt
