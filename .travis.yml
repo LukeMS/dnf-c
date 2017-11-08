@@ -18,7 +18,7 @@ before_script:
   - sleep 3 # give xvfb some time to start
   #- ls -A resources/gfx/tile_feature/
 script:
-  # improve gdb messages
+  # should improve gdb messages, but doesn't work (not sure why)
   #- git clone https://github.com/jeremie-koenig/glibc /opt/src/glibc
   #- make gdb --file=linux.makefile
   - make run --file=linux.makefile

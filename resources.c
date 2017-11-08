@@ -92,8 +92,6 @@ static char* create_tile_key(TileSource* tile_source) {
 
 static int list_tile_files(const char* path, struct ZHashTable* sources,
         long unsigned int* adler) {
-    char* name; // name of each file during iteration
-    char* tile_key; // key that will be used to hash
     TileSource* tile_src = NULL;
     uint32_t fmtime_v; // mod. time of each file
     *adler = adler32(0L, Z_NULL, 0); // Adler-32 checksum
@@ -104,9 +102,12 @@ static int list_tile_files(const char* path, struct ZHashTable* sources,
     if(al_open_directory(dir)) {
         ALLEGRO_FS_ENTRY* file;
         while((file = al_read_directory(dir))) {
-            name = (char*)al_get_fs_entry_name(file);
-            if (!strcmp(get_file_ext(name), "png")) {
+            // name of each file during iteration
+            char* name = (char*)al_get_fs_entry_name(file);
 
+            if (!strcmp(get_file_ext(name), "png")) {
+                // key that will be used to hash
+                char* tile_key;
                 tile_src = create_tile_source(name);
                 tile_key = create_tile_key(tile_src);
                 zhash_set(sources, tile_key, (void *) tile_src);
