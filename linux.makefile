@@ -7,7 +7,7 @@ IDIR = -Iinc -I/usr/include -I/usr/include/absdt
 LDIR = -L/usr/lib
 LIBS = -leventmgr -labsdt -lzhash -lz
 CFLAGS = -static -Wall -W -ggdb -std=c99
-ALLEGRO_CFG = `pkg-config --cflags --libs allegro-5.2 allegro_acodec-5.2 allegro_audio-5.2 allegro_color-5.2 allegro_dialog-5.2 allegro_font-5.2 allegro_image-5.2 allegro_main-5.2 allegro_memfile-5.2 allegro_physfs-5.2 allegro_primitives-5.2 allegro_ttf-5.2`
+ALLEGRO_CFG = `pkg-config --cflags --libs allegro-5 allegro_acodec-5 allegro_audio-5 allegro_color-5 allegro_dialog-5 allegro_font-5 allegro_image-5 allegro_main-5 allegro_memfile-5 allegro_physfs-5 allegro_primitives-5 allegro_ttf-5`
 
 _dummy := $(shell mkdir -p "$(BDIR)")
 
