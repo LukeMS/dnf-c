@@ -3,11 +3,11 @@ _TARGET := $(basename $(notdir $(realpath $(lastword $(_MAKEFILE_ABS)))))
 
 BDIR = bin
 SDIR = .
-IDIR = -Iinc -I/usr/include -I/usr/include/absdt -I/usr/local/include
-LDIR = -L/usr/lib -L/usr/local/lib/
+IDIR = -Iinc -I/usr/include -I/usr/include/absdt 
+LDIR = -L/usr/lib 
 LIBS = -leventmgr -labsdt -lzhash -lz
-CFLAGS = -static -Wall -W -ggdb -std=c99
-ALLEGRO_CFG = `pkg-config --cflags --libs` -lallegro-static -lallegro_acodec-static -lallegro_audio-static -lallegro_color-static -lallegro_dialog-static -lallegro_font-static -lallegro_image-static -lallegro_main-static -lallegro_memfile-static -lallegro_physfs-static -lallegro_primitives-static -lallegro_ttf-static
+CFLAGS = -Wall -W -ggdb -std=c99
+ALLEGRO_CFG = -I/usr/local/include -L/usr/local/lib/ -lallegro -lallegro_acodec -lallegro_audio -lallegro_color -lallegro_dialog -lallegro_font -lallegro_image -lallegro_main -lallegro_memfile -lallegro_physfs -lallegro_primitives -lallegro_ttf
 
 _dummy := $(shell mkdir -p "$(BDIR)")
 
