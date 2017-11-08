@@ -57,16 +57,8 @@ int DNF_manager_run(void) {
 
         al_flip_display();
 
-        if (manager->cmd_opt & DNF_CMD_NOINPUT) {
-            if (loops >= 5000) {
-                break;
-            } else {
-                loops++;
-            }
-        }
-        else {
-            dnf_abort("DNF_CMD_NOINPUT set to false");
-        }
+        if (manager->cmd_opt & DNF_CMD_NOINPUT)
+            break;
     }
 
     free(scene_evt);
