@@ -12,5 +12,6 @@ before_install:
 install:
   - make all --file=linux.makefile
 script:
-  - make valgrind --file=linux.makefile
+  #- make valgrind --file=linux.makefile
+  - make run --file=linux.makefile
 after_script:
