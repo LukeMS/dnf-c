@@ -16,12 +16,12 @@ before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
-  - ls -A resources/gfx/tile_feature/
+  #- ls -A resources/gfx/tile_feature/
 script:
   # improve gdb messages
-  - git clone https://github.com/jeremie-koenig/glibc /opt/src/glibc
-  - make gdb --file=linux.makefile
-  #- make run --file=linux.makefile # segmentation fault
+  #- git clone https://github.com/jeremie-koenig/glibc /opt/src/glibc
+  #- make gdb --file=linux.makefile
+  - make run --file=linux.makefile
   #- make valgrind --file=linux.makefile # lots of errors
 after_script:
   - cat dnf_log.txt

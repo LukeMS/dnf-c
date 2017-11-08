@@ -4,10 +4,10 @@
 
 @git add --all
 
-:@set /p msg="Describe the commit: "
-:@git commit -m "%msg%"
+@set /p msg="Describe the commit: "
+@git commit -m "%msg%"
 
-@git commit -m "Os specific path separators"
+:@git commit -m "travis"
 @git push origin master
 
 @pause
