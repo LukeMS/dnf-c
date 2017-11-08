@@ -1,7 +1,7 @@
 *.sublime-project
 *.sublime-workspace
 dnf_log.txt
-git-commit.bat
+git_commit.bat
 obj
 bin
 tests

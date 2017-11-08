@@ -11,8 +11,9 @@
 typedef DNF_Scene DNF_SceneSplash;
 
 int DNF_scene_splash_load(DNF_Scene* scene, void* data);
-
 int DNF_scene_splash_update(DNF_Scene* scene);
+int DNF_scene_splash_draw(DNF_Scene* scene);
+int DNF_scene_splash_unload(DNF_Scene* scene);
 
 #define DNF_scene_splash_init(scene) \
     do { \

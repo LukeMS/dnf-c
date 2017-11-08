@@ -27,6 +27,8 @@ typedef struct Manager {
     ALLEGRO_EVENT_QUEUE *event_queue;
 
     EventMgr *events;
+
+    unsigned int cmd_opt;
 } Manager;
 
 Manager* manager;

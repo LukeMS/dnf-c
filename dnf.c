@@ -4,21 +4,6 @@
 Manager *manager = NULL;
 //ALLEGRO_TEXTLOG* dnf_log_window = NULL;
 
-void zhash_testy()
-{
-    struct ZHashTable *hash_table;
-    hash_table = zcreate_hash_table();
-
-    zhash_set(hash_table, "hello", (void *) "world");
-
-    if (zhash_exists(hash_table, "hello")) {
-        dnf_info("hello %s", (char *) zhash_get(hash_table, "hello"));
-    }
-
-    zfree_hash_table(hash_table);
-
-    return;
-}
 
 void _dnf_free(void) {
     dnf_alert("called");
@@ -33,14 +18,27 @@ void _dnf_free(void) {
     del_Manager();
 }
 
-void dnf_init(void) {
+void dnf_parse_args(int argc, char const *argv[]) {
+    dnf_info("cmdline args count=%d", argc);
+     /* First argument is executable name only */
+    for (int i=1; i < argc; i++) {
+        //        dnf_info("\narg%d=%s", i, argv[i]);
+
+        if (!(strcmp(argv[i], "NOINPUT"))) {
+            // set with a true mask
+            manager->cmd_opt |= DNF_CMD_NOINPUT;
+        }
+
+    }
+}
+
+void dnf_init(int argc, char const *argv[]) {
     dnf_alert("called");
-
-    zhash_testy();
-
 
     if (new_Manager())
         dnf_abort("failed to initialize 'manager'");
+
+    dnf_parse_args(argc, argv);
 
     if (!al_init())
         dnf_abort("Failed to initialize Allegro.");
@@ -103,11 +101,10 @@ void dnf_shutdown(void) {
     _dnf_free();
 }
 
-int main(void)
-{
+int main(int argc, char const *argv[]) {
     DNF_LOG = fopen("dnf_log.txt","w"); // start log
 
-    dnf_init();
+    dnf_init(argc, argv);
 
     fclose(DNF_LOG); // end log
 

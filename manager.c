@@ -26,5 +26,15 @@ void del_Manager(void) {
 int DNF_manager_run(void) {
     dnf_info("called DNF_manager_run");
 
+    while (1) {
+        // update scene
+        // manager->events->trigger(manager->events, "UPDATE", NULL);
+
+        if (manager->cmd_opt & DNF_CMD_NOINPUT)
+            break;
+        else
+            dnf_abort("DNF_CMD_NOINPUT set to false");
+    }
+
     return 0;
 }

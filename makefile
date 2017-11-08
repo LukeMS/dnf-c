@@ -40,7 +40,8 @@ all: $(OBJS) $(LIBS)
 	gcc $(OBJS) $(LIB) $(LIBS_SHORT) -o $(BDIR)/$(_TARGET)
 
 run: all
-	./$(BDIR)/$(_TARGET).exe
+	./$(BDIR)/$(_TARGET).exe NOINPUT || gdb -batch -ex "run" -ex "bt" $(BDIR)/$(_TARGET).exe 2>&1
+	cat dnf_log.txt
 
 rundrm: all
 	C:/dr_m/bin/drmemory -batch -- ./$(BDIR)/$(_TARGET).exe

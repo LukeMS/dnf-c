@@ -9,6 +9,15 @@
 #define DNF_OSPATHSEP '/'
 #endif
 
+enum {
+  DNF_CMD_NOINPUT = 0x01,
+  DNF_CMD_B = 0x02,
+  DNF_CMD_C = 0x04,
+  DNF_CMD_D = 0x08,
+  DNF_CMD_E = 0x10,
+  DNF_CMD_F = 0x20,
+};
+
 /*
 #ifdef DEBUG
 #define DNF_DEBUG 1
@@ -16,6 +25,7 @@
 #define DNF_DEBUG 0
 #endif
 */
+
 /*
 DNF_DEBUG verbosity level:
 0 = off, no debugging functions/output;
@@ -43,15 +53,15 @@ FILE * DNF_LOG;
 
 void _dnf_free(void);
 
-void dnf_init(void);
+void dnf_init(int argc, char const *argv[]);
 
 void dnf_shutdown(void);
 
 #define dnf_abort(msg, ...) \
     do { \
-        fprintf(stderr, "%s:%d  (%s)  ALERT: " msg "\n", \
+        fprintf(stderr, "%s:%d  (%s)  ERROR: " msg "\n", \
                 __FILE__, __LINE__, __func__, ##__VA_ARGS__); \
-        fprintf(DNF_LOG, "%s:%d  (%s)  ALERT: " msg "\n", \
+        fprintf(DNF_LOG, "%s:%d  (%s)  ERROR: " msg "\n", \
                 __FILE__, __LINE__, __func__, ##__VA_ARGS__); \
         _dnf_free(); \
         exit(EXIT_FAILURE); \

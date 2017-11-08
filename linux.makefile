@@ -23,14 +23,14 @@ all: $(OBJS)
 	gcc $(OBJS) $(LDIR) $(LIBS) $(IDIR) -o $(BDIR)/$(_TARGET)
 
 run: all
-	$(BDIR)/$(_TARGET)
+	$(BDIR)/$(_TARGET) NOINPUT
 
 valgrind: all
-	valgrind --error-exitcode=666 --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all --track-fds=yes $(BDIR)/$(_TARGET)
+	valgrind --error-exitcode=666 --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all --track-fds=yes $(BDIR)/$(_TARGET) NOINPUT
 
 #gdb -batch -ex "run" -ex "bt" $(BDIR)/$(_TARGET) 2>&1 | grep -v ^"No stack."$
 gdb: all
-	gdb -batch -ex "directory /opt/src/glibc:/opt/src/glibc/stdlib" -ex "run" -ex "bt" $(BDIR)/$(_TARGET) 2>&1
+	gdb -batch -ex "directory /opt/src/glibc:/opt/src/glibc/stdlib" -ex "run" -ex "bt" $(BDIR)/$(_TARGET) NOINPUT 2>&1
 
 # pull in dependency info for *existing* .o files
 -include $(OBJS:.o=.d)
