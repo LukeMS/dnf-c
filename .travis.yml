@@ -17,6 +17,7 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 script:
-  #- make valgrind --file=linux.makefile
-  - make run --file=linux.makefile
+  - make gdb --file=linux.makefile
+  #- make run --file=linux.makefile # segmentation fault
+  #- make valgrind --file=linux.makefile # lots of errors
 after_script:

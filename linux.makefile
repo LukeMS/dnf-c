@@ -8,7 +8,7 @@ IDIR = -Iinc -I/usr/include -I/usr/include/absdt
 LDIR = -L/usr/lib
 # https://wiki.allegro.cc/index.php?title=Compiling_Allegro_Programs#n00b_Introduction_.28Skip_If_Not_New.29
 # allegro allegro_acodec allegro_audio allegro_color allegro_dialog allegro_font allegro_image allegro_main allegro_memfile allegro_physfs allegro_primitives allegro_ttf
-LIBS = -leventmgr -labsdt -lzhash -lz -lallegro -lallegro_image -lallegro_dialog
+LIBS = -leventmgr -labsdt -lzhash -lz -lallegro -lallegro_image
 CFLAGS = -static -Wall -W -ggdb -std=c99 $(IDIR) $(LDIR)
 
 _OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
@@ -27,6 +27,10 @@ run: all
 
 valgrind: all
 	valgrind --error-exitcode=666 --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all --track-fds=yes $(BDIR)/$(_TARGET)
+
+#gdb -batch -ex "run" -ex "bt" $(BDIR)/$(_TARGET) 2>&1 | grep -v ^"No stack."$
+gdb: all
+	gdb -batch -ex "run" -ex "bt" $(BDIR)/$(_TARGET) 2>&1
 
 # pull in dependency info for *existing* .o files
 -include $(OBJS:.o=.d)
