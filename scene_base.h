@@ -6,22 +6,20 @@ typedef struct DNF_Scene DNF_Scene;
 
 
 typedef struct DNF_Scene {
-
     int (*load)   (DNF_Scene* scene, void* newdata);
-    int (*update) (DNF_Scene* scene);
-    int (*draw)   (DNF_Scene* scene);
+    int (*update) (void* data);
+    int (*draw)   (void* data);
     int (*unload) (DNF_Scene* scene);
 
     void* data;
 
-
 } DNF_Scene;
 
-#define DNF_scene_base_init(scene) \
-    do { \
-        scene->load = NULL; \
-        /* initialize tileset's hash tables */ \
-        scene->data = zcreate_hash_table(); \
-    } while (0)
+typedef struct DNF_SceneEvt {
+    DNF_Scene* scene;
+    void* data;
+} DNF_SceneEvt;
+
+DNF_Scene* DNF_scene_base_init(void);
 
 #endif

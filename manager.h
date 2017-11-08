@@ -13,6 +13,7 @@ typedef struct Manager Manager;
 #include "dnf.h"
 #include "scene_base.h"
 #include "resources.h"
+#include "scene_splash.h"
 
 
 int DNF_manager_run(void);
@@ -24,7 +25,7 @@ typedef struct Manager {
     DNF_Scene*     scene;
 
     ALLEGRO_DISPLAY *display;
-    ALLEGRO_EVENT_QUEUE *event_queue;
+    ALLEGRO_EVENT_QUEUE *al_event_queue;
 
     EventMgr *events;
 

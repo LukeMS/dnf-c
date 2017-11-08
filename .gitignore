@@ -4,7 +4,6 @@ dnf_log.txt
 git_commit.bat
 obj
 bin
-tests
 # resources
 
 # Prerequisites

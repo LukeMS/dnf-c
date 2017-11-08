@@ -10,8 +10,8 @@ void _dnf_free(void) {
 
     if (manager->display != NULL)
         al_destroy_display(manager->display);
-    if (manager->event_queue != NULL)
-        al_destroy_event_queue(manager->event_queue);
+    if (manager->al_event_queue != NULL)
+        al_destroy_event_queue(manager->al_event_queue);
     al_uninstall_system();
 
     unload_resources();
@@ -25,7 +25,7 @@ void dnf_parse_args(int argc, char const *argv[]) {
         //        dnf_info("\narg%d=%s", i, argv[i]);
 
         if (!(strcmp(argv[i], "NOINPUT"))) {
-            // set with a true mask
+            // assign true to DNF_CMD_NOINPUT mask at manager->cmd_opt
             manager->cmd_opt |= DNF_CMD_NOINPUT;
         }
 
@@ -74,14 +74,22 @@ void dnf_init(int argc, char const *argv[]) {
 
     if(!al_init_image_addon())
         dnf_abort("Failed to initialize al_init_image_addon.");
+    if(!al_init_font_addon())
+        dnf_abort("Failed to initialize al_init_font_addon.");
+    if(!al_init_ttf_addon())
+        dnf_abort("Failed to initialize al_init_ttf_addon.");
 
     if (init_resources())
         dnf_abort("Failed to initialize resources loader.");
 
     /* `al_create_event_queue` will return a new `ALLEGRO_EVENT_QUEUE` object. Should this function fail, it will return `NULL`. While failure is unlikely in this simple example, you are better off checking every single function that could fail for any errors. You may have fewer hidden problems when the program becomes more complicated. */
-    manager->event_queue = al_create_event_queue();
-    if(manager->event_queue == NULL)
-        dnf_abort("Failed to create event_queue.");
+    manager->al_event_queue = al_create_event_queue();
+    if(manager->al_event_queue == NULL)
+        dnf_abort("Failed to create al_event_queue.");
+
+    /* Here we actually tie the display to the event queue so we can be informed of events from the display such as the close event. Without this function call, the display events will not be placed in this queue and thus will not be handled. */
+    al_register_event_source(manager->al_event_queue,
+                             al_get_display_event_source(manager->display));
 
     manager->run();
 
