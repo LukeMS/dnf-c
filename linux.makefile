@@ -6,9 +6,8 @@ ODIR = obj
 SDIR = .
 IDIR = -Iinc -I/usr/include -I/usr/include/absdt
 LDIR = -L/usr/lib
-LIBS = -leventmgr -labsdt -lzhash -lz -lallegro5
-ALLEGRO5_CFG = `pkg-config --cflags --libs allegro-5.2 allegro_acodec-5.2 allegro_audio-5.2 allegro_color-5.2 allegro_dialog-5.2 allegro_font-5.2 allegro_image-5.2 allegro_main-5.2 allegro_memfile-5.2 allegro_physfs-5.2 allegro_primitives-5.2 allegro_ttf-5.2`
-CFLAGS = -static -Wall -W -ggdb -std=c99 $(IDIR) $(LDIR) $(ALLEGRO5_CFG)
+LIBS = -leventmgr -labsdt -lzhash -lz -lallegro
+CFLAGS = -static -Wall -W -ggdb -std=c99 $(IDIR) $(LDIR)
 
 _OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
@@ -19,7 +18,7 @@ clean_files := $(strip $(foreach f,$(clean_filenames),$(wildcard $(f))))
 _dummy := $(shell mkdir -p "$(BDIR)" "$(ODIR)")
 
 all: $(OBJS)
-	gcc $(OBJS) $(LDIR) $(LIBS) $(IDIR) $(ALLEGRO5_CFG) -o $(BDIR)/$(_TARGET)
+	gcc $(OBJS) $(LDIR) $(LIBS) $(IDIR) -o $(BDIR)/$(_TARGET)
 
 run: all
 	$(BDIR)/$(_TARGET)
