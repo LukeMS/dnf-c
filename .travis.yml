@@ -32,26 +32,26 @@ script:
     - |
       if [ ! -d /home/travis/allegro5 ]; then
          export USE_CACHE=0;
-         git clone https://github.com/liballeg/allegro5.git
-         cd allegro5
-         mkdir build
-         cd build
+         git clone https://github.com/liballeg/allegro5.git;
+         cd allegro5;
+         mkdir build;
+         cd build;
       else
          export USE_CACHE=1;
-         cd allegro5/build
+         cd allegro5/build;
       fi
       if [ `uname` = "Linux" ]; then
          if [ `USE_CACHE` = 0 ]; then
-            cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_SHADERS_GL=$WANT_SHADERS_GL
-            make
+            cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_SHADERS_GL=$WANT_SHADERS_GL;
+            make;
          else
-            echo USING CACHE
-         if
-         sudo make install
-         sudo ldconfig
+            echo USING CACHE;
+         fi
+         sudo make install;
+         sudo ldconfig;
       elif [ `uname` = "Darwin" ]; then
-         cmake .. -DWANT_SHADERS_GL=$WANT_SHADERS_GL -G Xcode
-         xcodebuild
+         cmake .. -DWANT_SHADERS_GL=$WANT_SHADERS_GL -G Xcode;
+         xcodebuild;
       fi
     # DNF FROM HERE ON
     - cd ..
