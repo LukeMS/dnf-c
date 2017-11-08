@@ -1,12 +1,12 @@
-language: c
+language: c++
 
 os:
+  - osx
   - linux
-  #- osx
 
 compiler:
+  - clang
   - gcc
-  #- clang
 
 before_install:
     - if [ `uname` = "Linux" ]; then
@@ -19,12 +19,10 @@ before_install:
       fi
 
 env:
+  - WANT_SHADERS_GL=on
   - WANT_SHADERS_GL=off
-  #- WANT_SHADERS_GL=on
 
 before_script:
-  - git clone https://github.com/liballeg/allegro5.git
-  - cd allegro5
   - mkdir build
   - cd build
 
@@ -45,15 +43,12 @@ script:
          cmake .. -DWANT_SHADERS_GL=$WANT_SHADERS_GL -G Xcode
          xcodebuild
       fi
-    # DNF FROM HERE ON
-    - cd ..
-    - cd ..
-    - git clone https://github.com/LukeMS/absdatatypes-c.git
-    - cd absdatatypes-c && sudo make install --file=linux.makefile && cd ..
-    - git clone https://github.com/LukeMS/zhash-c.git
-    - cd zhash-c && sudo make install --file=linux.makefile && cd ..
-    - git clone https://github.com/LukeMS/eventmgr-c.git
-    - cd eventmgr-c && sudo make install --file=linux.makefile && cd ..
-    - make all --file=linux.makefile
-    - make run --file=linux.makefile
-    - cat dnf_log.txt
+
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.org#allegro-dev"
+    on_success: always
+    on_failure: always
+    use_notice: false
+    skip_join: false
