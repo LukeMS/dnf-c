@@ -16,16 +16,15 @@ ALLEGRO_CFG = -I/usr/local/include -L/usr/local/lib/ -lallegro -lallegro_acodec 
 
 _dummy := $(shell mkdir -p "$(BDIR)")
 
-$(TRAVIS_BUILD_DIR)/allegro5:
+$(TRAVIS_BUILD_DIR)/allegro5/build/Makefile:
 
 
-dep_allegro: $(TRAVIS_BUILD_DIR)/allegro5
+dep_allegro: $(TRAVIS_BUILD_DIR)/allegro5/build/Makefile
 	git clone https://github.com/liballeg/allegro5.git $(TRAVIS_BUILD_DIR)/allegro5
 	mkdir $(TRAVIS_BUILD_DIR)/allegro5/build
 	cd $(TRAVIS_BUILD_DIR)/allegro5/build
-	cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_SHADERS_GL=$WANT_SHADERS_GL
-	make
-	cd $(TRAVIS_BUILD_DIR)/allegro5/build
+	cmake $(TRAVIS_BUILD_DIR)/allegro5 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_SHADERS_GL=$WANT_SHADERS_GL
+	cd $(TRAVIS_BUILD_DIR)/allegro5/build && make
 	sudo make install
 	sudo ldconfig
 
