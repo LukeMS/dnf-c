@@ -3,6 +3,9 @@
 
 _MAKEFILE_ABS = $(CURDIR)/$(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST))
 _TARGET := dnf
+ORIGIN = $(CURDIR)
+$(info CURDIR=$(CURDIR))
+$(info ORIGIN=$(ORIGIN))
 $(info makefile=$(_MAKEFILE_ABS))
 .DEFAULT_GOAL = run
 _MAKEFILE_DIR := $(dir $(_MAKEFILE_ABS))
