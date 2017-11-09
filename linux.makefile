@@ -17,29 +17,29 @@ ALLEGRO_CFG = -I/usr/local/include -L/usr/local/lib/ -lallegro -lallegro_acodec 
 _dummy := $(shell mkdir -p "$(BDIR)")
 
 $(TRAVIS_BUILD_DIR)/allegro5:
+
+
+dep_allegro: $(TRAVIS_BUILD_DIR)/allegro5
 	git clone https://github.com/liballeg/allegro5.git $(TRAVIS_BUILD_DIR)/allegro5
 	mkdir $(TRAVIS_BUILD_DIR)/allegro5/build
 	cd $(TRAVIS_BUILD_DIR)/allegro5/build
 	cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_SHADERS_GL=$WANT_SHADERS_GL
 	make
-
-
-dep_allegro: $(TRAVIS_BUILD_DIR)/allegro5
 	cd $(TRAVIS_BUILD_DIR)/allegro5/build
 	sudo make install
 	sudo ldconfig
 
 dep_absdatatypes:
 	git clone https://github.com/LukeMS/absdatatypes-c.git $(TRAVIS_BUILD_DIR)/absdatatypes
-	make -C $(TRAVIS_BUILD_DIR)/absdatatypes --file=$(TRAVIS_BUILD_DIR)/absdatatypes/linux.makefile
+	sudo make -C $(TRAVIS_BUILD_DIR)/absdatatypes --file=$(TRAVIS_BUILD_DIR)/absdatatypes/linux.makefile install
 
 dep_zhash:
 	git clone https://github.com/LukeMS/zhash-c.git $(TRAVIS_BUILD_DIR)/zhash
-	make -C $(TRAVIS_BUILD_DIR)/zhash --file=$(TRAVIS_BUILD_DIR)/zhash/linux.makefile
+	sudo make -C $(TRAVIS_BUILD_DIR)/zhash --file=$(TRAVIS_BUILD_DIR)/zhash/linux.makefile install
 
 dep_eventmgr:
 	git clone https://github.com/LukeMS/eventmgr-c.git $(TRAVIS_BUILD_DIR)/eventmgr
-	make -C $(TRAVIS_BUILD_DIR)/eventmgr --file=$(TRAVIS_BUILD_DIR)/eventmgr/linux.makefile
+	sudo make -C $(TRAVIS_BUILD_DIR)/eventmgr --file=$(TRAVIS_BUILD_DIR)/eventmgr/linux.makefile install
 
 all:
 	gcc $(CFLAGS) *.c $(IDIR) $(LDIR) $(LIBS) $(ALLEGRO_CFG) -o $(BDIR)/$(_TARGET)
