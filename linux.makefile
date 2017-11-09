@@ -15,32 +15,30 @@ ALLEGRO_CFG = -I/usr/local/include -L/usr/local/lib/ -lallegro -lallegro_acodec 
 
 _dummy := $(shell mkdir -p "$(BDIR)")
 
-~/allegro5:
-	git clone https://github.com/liballeg/allegro5.git /allegro5
-	mkdir ~/allegro5/build
-	cd ~/allegro5/build
+~/dnf-c/allegro5:
+	git clone https://github.com/liballeg/allegro5.git ~/dnf-c/allegro5
+	mkdir ~/dnf-c/allegro5/build
+	cd ~/dnf-c/allegro5/build
 	cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_SHADERS_GL=$WANT_SHADERS_GL
 	make
 
 
-dep_allegro: ~/allegro5
-	cd ~/allegro5/build
+dep_allegro: ~/dnf-c/allegro5
+	cd ~/dnf-c//allegro5/build
 	sudo make install
 	sudo ldconfig
 
 dep_absdatatypes:
-	git clone https://github.com/LukeMS/absdatatypes-c.git ~/absdatatypes
-	make -C ~/absdatatypes --file=linux.makefile
+	git clone https://github.com/LukeMS/absdatatypes-c.git ~/dnf-c/absdatatypes
+	make -C ~/dnf-c/absdatatypes --file=linux.makefile
 
 dep_zhash:
-	git clone https://github.com/LukeMS/zhash-c.git ~/zhash
-	make -C ~/zhash --file=linux.makefile
+	git clone https://github.com/LukeMS/zhash-c.git ~/dnf-c/zhash
+	make -C ~/dnf-c/zhash --file=linux.makefile
 
 dep_eventmgr:
-	cd $(ORIGIN)
-	git clone https://github.com/LukeMS/eventmgr-c.git $(ORIGIN)/eventmgr
-	make -C $(ORIGIN)/eventmgr --file=linux.makefile
-
+	git clone https://github.com/LukeMS/eventmgr-c.git ~/dnf-c/eventmgr
+	make -C ~/dnf-c/eventmgr --file=linux.makefile
 
 all:
 	gcc $(CFLAGS) *.c $(IDIR) $(LDIR) $(LIBS) $(ALLEGRO_CFG) -o $(BDIR)/$(_TARGET)
