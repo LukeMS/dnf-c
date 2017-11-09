@@ -10,7 +10,7 @@ compiler:
 
 cache:
   directories:
-    #- $TRAVIS_BUILD_DIR/allegro5
+    - $TRAVIS_BUILD_DIR/allegro5
 
 env:
   - WANT_SHADERS_GL=off
