@@ -4,6 +4,7 @@ ORIGIN = $(CURDIR)
 
 $(info CURDIR=$(CURDIR))
 $(info ORIGIN=$(ORIGIN))
+$(info TRAVIS_BUILD_DIR=$(TRAVIS_BUILD_DIR))
 
 BDIR = bin
 SDIR = .
@@ -15,30 +16,30 @@ ALLEGRO_CFG = -I/usr/local/include -L/usr/local/lib/ -lallegro -lallegro_acodec 
 
 _dummy := $(shell mkdir -p "$(BDIR)")
 
-~/dnf-c/allegro5:
-	git clone https://github.com/liballeg/allegro5.git ~/dnf-c/allegro5
-	mkdir ~/dnf-c/allegro5/build
-	cd ~/dnf-c/allegro5/build
+$(TRAVIS_BUILD_DIR)/allegro5:
+	git clone https://github.com/liballeg/allegro5.git $(TRAVIS_BUILD_DIR)/allegro5
+	mkdir $(TRAVIS_BUILD_DIR)/allegro5/build
+	cd $(TRAVIS_BUILD_DIR)/allegro5/build
 	cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_SHADERS_GL=$WANT_SHADERS_GL
 	make
 
 
-dep_allegro: ~/dnf-c/allegro5
-	cd ~/dnf-c//allegro5/build
+dep_allegro: $(TRAVIS_BUILD_DIR)/allegro5
+	cd $(TRAVIS_BUILD_DIR)//allegro5/build
 	sudo make install
 	sudo ldconfig
 
 dep_absdatatypes:
-	git clone https://github.com/LukeMS/absdatatypes-c.git ~/dnf-c/absdatatypes
-	make -C ~/dnf-c/absdatatypes --file=linux.makefile
+	git clone https://github.com/LukeMS/absdatatypes-c.git $(TRAVIS_BUILD_DIR)/absdatatypes
+	make -C $(TRAVIS_BUILD_DIR)/absdatatypes --file=linux.makefile
 
 dep_zhash:
-	git clone https://github.com/LukeMS/zhash-c.git ~/dnf-c/zhash
-	make -C ~/dnf-c/zhash --file=linux.makefile
+	git clone https://github.com/LukeMS/zhash-c.git $(TRAVIS_BUILD_DIR)/zhash
+	make -C $(TRAVIS_BUILD_DIR)/zhash --file=linux.makefile
 
 dep_eventmgr:
-	git clone https://github.com/LukeMS/eventmgr-c.git ~/dnf-c/eventmgr
-	make -C ~/dnf-c/eventmgr --file=linux.makefile
+	git clone https://github.com/LukeMS/eventmgr-c.git $(TRAVIS_BUILD_DIR)/eventmgr
+	make -C $(TRAVIS_BUILD_DIR)/eventmgr --file=linux.makefile
 
 all:
 	gcc $(CFLAGS) *.c $(IDIR) $(LDIR) $(LIBS) $(ALLEGRO_CFG) -o $(BDIR)/$(_TARGET)
