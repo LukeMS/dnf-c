@@ -16,17 +16,21 @@ ALLEGRO_CFG = -I/usr/local/include -L/usr/local/lib/ -lallegro -lallegro_acodec 
 
 _dummy := $(shell mkdir -p "$(BDIR)")
 
-$(TRAVIS_BUILD_DIR)/allegro5/build/Makefile:
 
+dep_allegro_build:
+	cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_SHADERS_GL=$WANT_SHADERS_GL
+	make -C $(TRAVIS_BUILD_DIR)/allegro5/build/ --file=Makefile
 
-dep_allegro: $(TRAVIS_BUILD_DIR)/allegro5/build/Makefile
+$(TRAVIS_BUILD_DIR)/allegro5/build/linux.makefile:
 	git clone https://github.com/liballeg/allegro5.git $(TRAVIS_BUILD_DIR)/allegro5
 	mkdir $(TRAVIS_BUILD_DIR)/allegro5/build
-	cd $(TRAVIS_BUILD_DIR)/allegro5/build
-	cmake $(TRAVIS_BUILD_DIR)/allegro5 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_SHADERS_GL=$WANT_SHADERS_GL
-	cd $(TRAVIS_BUILD_DIR)/allegro5/build && make
-	sudo make install
-	sudo ldconfig
+	cp linux.makefile $(TRAVIS_BUILD_DIR)/allegro5/build/
+	make -C $(TRAVIS_BUILD_DIR)/allegro5/build/ --file=$(TRAVIS_BUILD_DIR)/allegro5/build/linux.makefile
+
+
+dep_allegro: $(TRAVIS_BUILD_DIR)/allegro5/build/linux.makefile
+	sudo make -C $(TRAVIS_BUILD_DIR)/allegro5/build/ --file=Makefile install
+	cd $(TRAVIS_BUILD_DIR)/allegro5/build && sudo ldconfig
 
 dep_absdatatypes:
 	git clone https://github.com/LukeMS/absdatatypes-c.git $(TRAVIS_BUILD_DIR)/absdatatypes
