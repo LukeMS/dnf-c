@@ -23,12 +23,12 @@ before_install:
   - sudo apt-get install -y libvorbis-dev libtheora-dev libwebp-dev libphysfs-dev libopusfile-dev libdumb1-dev libflac-dev libpulse-dev libgtk2.0-dev pandoc libcurl4-nss-dev libenet-dev pulseaudio libasound2-dev libopenal-dev
 
 script:
-  - cd ~/dnf-c
+  - cd $TRAVIS_BUILD_DIR
   - make --file=linux.makefile dep_allegro
   - make --file=linux.makefile dep_absdatatypes
   - make --file=linux.makefile dep_zhash        
   - make --file=linux.makefile dep_eventmgr     
-  - cd ~/dnf-c
+  - cd $TRAVIS_BUILD_DIR
   - make --file=linux.makefile all              
   - make --file=linux.makefile run              
   - cat dnf_log.txt
